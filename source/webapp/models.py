@@ -3,9 +3,9 @@ from django.db import models
 # Create your models here.
 
 STATUS_CHOICES = (
-    ('new', 'Новая'),
-    ('in_progress', 'В процессе'),
-    ('done', 'Сделано'),
+    ('new', 'New'),
+    ('in_progress', 'In Progress'),
+    ('done', 'Done'),
 )
 
 

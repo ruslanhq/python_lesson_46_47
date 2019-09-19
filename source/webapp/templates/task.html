@@ -12,6 +12,6 @@
     <h1>{{ tasks.description }}</h1>
     <p>Description task:  <b>{{ tasks.description }}</b> </p>
     <p>Status:  <b>{{ tasks.get_status_display }}</b> </p>
-    <p>Date to completion: {{ tasks.date_of_completion }}</p>
+    <p>Date to completion: {{ tasks.date_of_completion|date:'Y-m-d' }}</p>
     <p>Full description: <b>{{ tasks.full_description }}</b></p>
 {% endblock %}

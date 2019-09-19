@@ -29,7 +29,6 @@ def create_task(request, *args, **kwargs):
         form = TaskForm()
         return render(request, 'add.html', context={
             'form': form,
-            'status_choices': STATUS_CHOICES
         })
     elif request.method == 'POST':
         form = TaskForm(data=request.POST)
@@ -50,19 +49,29 @@ def create_task(request, *args, **kwargs):
 def update_task(request, pk):
     tasks = get_object_or_404(Task, pk=pk)
     if request.method == 'GET':
+        form = TaskForm(data={'description': tasks.description,
+                              'status': tasks.status,
+                              'date_of_completion': tasks.date_of_completion,
+                              'full_description': tasks.full_description}
+                        )
         return render(request, 'update.html', context={
-            'status_choices': STATUS_CHOICES,
+            'form': form,
             'tasks': tasks
         })
     elif request.method == 'POST':
-        tasks.description = request.POST.get('description')
-        tasks.status = request.POST.get('status')
-        tasks.date_of_completion = request.POST.get('date_of_completion')
-        tasks.full_description = request.POST.get('full_description')
-        if tasks.date_of_completion == '':
-            tasks.date_of_completion = None
-        tasks.save()
-        return redirect('task_view', pk=tasks.pk)
+        form = TaskForm(data=request.POST)
+        if form.is_valid():
+            tasks.description=form.cleaned_data['description']
+            tasks.status=form.cleaned_data['status']
+            tasks.date_of_completion=form.cleaned_data['date_of_completion']
+            tasks.full_description=form.cleaned_data['full_description']
+            tasks.save()
+            return redirect('task_view', pk=tasks.pk)
+        else:
+            return render(request, 'update.html', context={
+                'form': form,
+                'tasks': tasks
+            })
 
 
 def delete_task(request, pk):
