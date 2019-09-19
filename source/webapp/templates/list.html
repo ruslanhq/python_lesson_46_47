@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}List_Task{% endblock %}
+{% block menu %}
+    <li><a href="{% url 'task_add' %}">Add Task</a></li>
+{% endblock %}
+{% block content %}
+        <h1>List Tasks</h1>
+        {% for task in tasks %}
+        <h2>{{ task.description }}</h2>
+        <div>{{ task.status }}</div>
+        <p><a href="{% url 'task_view' task.pk %}">More...</a></p>
+        <p><a href="{% url 'task_update' task.pk %}">Edit</a></p>
+        <p><a href="{% url 'task_delete' task.pk %}">Delete</a></p>
+        <hr/>
+        {% endfor %}
+{% endblock %}
